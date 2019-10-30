@@ -4,11 +4,9 @@ import lombok.AllArgsConstructor;
 import net.guides.springboot2.springboot2jpacrudexample.model.Employee;
 import net.guides.springboot2.springboot2jpacrudexample.repository.EmployeeRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,8 +22,14 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployeeById
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long employeeId, @Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("no employee with this id"));
+
+
+        }
+    }
 
 
 
 }
+
