@@ -17,6 +17,7 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 @AllArgsConstructor
 public class EmployeeController {
+    final String ERRORMESSAGE = "employee not found";
     EmployeeRepository employeeRepository;
 
     @GetMapping("/employees")
@@ -26,7 +27,7 @@ public class EmployeeController {
 
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long employeeId, @Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("no employee with this id"));
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException(ERRORMESSAGE));
         employee.setEmailId(employeeDetails.getEmailId());
         employee.setLastName(employeeDetails.getLastName());
         employee.setFirstName(employeeDetails.getFirstName());
@@ -34,9 +35,24 @@ public class EmployeeController {
         return ResponseEntity.ok(updatedEmployee);
     }
 
+    @PostMapping("/employees")
+    public Employee createEmployee(@Valid @RequestBody Employee employee) {
+        return employeeRepository.save(employee);
+    }
+
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") Long employeeId, @Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException(ERRORMESSAGE));
+        employee.setFirstName(employeeDetails.getFirstName());
+        employee.setLastName(employeeDetails.getLastName());
+        employee.setEmailId(employeeDetails.getEmailId());
+        final Employee updatedEmployee = employeeRepository.save(employee);
+        return ResponseEntity.ok(updatedEmployee);
+    }
+
     @DeleteMapping("employees/{id}")
     public Map<String, Boolean> deleteEmployee(@PathVariable("id") Long employeeId) throws ResourceNotFoundException {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("no employee with this id"));
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException(ERRORMESSAGE));
         employeeRepository.delete(employee);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
