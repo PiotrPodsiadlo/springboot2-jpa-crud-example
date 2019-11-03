@@ -21,13 +21,13 @@ public class EmployeeController {
         return employeeRepository.findAll();
     }
 
-    @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long employeeId, @Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("no employee with this id"));
-
-
-        }
-    }
+//    @GetMapping("/employees/{id}")
+//    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long employeeId, @Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException {
+//        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("no employee with this id"));
+//
+//
+//        }
+//    }
 
 
 
