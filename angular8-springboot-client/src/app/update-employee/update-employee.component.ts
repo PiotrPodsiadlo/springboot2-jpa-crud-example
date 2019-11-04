@@ -19,7 +19,7 @@ export class UpdateEmployeeComponent implements OnInit {
     this.employee = new Employee();
     this.id = this.route.snapshot.params['id'];
 
-    this.employeeService.getEmployee(this.id).subscribe(data => {console.log(data) this.employee = data;}
+    this.employeeService.getEmployee(this.id).subscribe(data => {console.log(data), this.employee = data;}
     , error=> console.log(error));
   }
 
@@ -36,5 +36,4 @@ export class UpdateEmployeeComponent implements OnInit {
   gotoList() {
     this.router.navigate(['/employees']);
   }
-
 }
