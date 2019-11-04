@@ -8,17 +8,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class EmployeeController {
     final String ERRORMESSAGE = "employee not found";
     EmployeeRepository employeeRepository;
+
+    @GetMapping("/hello")
+    public List<String> hello(){
+        List<String> hello = new ArrayList<>();
+        hello.add("hello");
+        return hello;
+    }
 
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
